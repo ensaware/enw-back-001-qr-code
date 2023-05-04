@@ -27,7 +27,7 @@ class QR:
 
         if not(qr_email):
             raise ValueError(
-                'Error recuperando información del código QR.'
+                'Corre electrónico invalido.'
             )
     
         encrypt = self.__fernet.encrypt(qr_email.id.encode(self.encode)).decode(self.encode)
