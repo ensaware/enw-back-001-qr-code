@@ -7,7 +7,7 @@ Para ejecutar el proyecto **Código QR** se puede realizar de dos maneras:
 1. [Localmente.](#Localmente)
 2. [Docker. `recomendado`](#Docker)
 
-Para ambos casos, se debe de crear un archivo en la raíz del proyecto con el nombre: `.env` y dentro del archivo ingresar los valores de están variables:
+Para ambos casos, se debe de crear un archivo en la raíz del proyecto con el nombre: `.env`. Dentro del archivo ingresar los valores de las variables:
 ```bash
 DATABASE_HOST=""
 DATABASE_USERNAME=""
