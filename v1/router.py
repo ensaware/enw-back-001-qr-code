@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, status, Request, Response
 from sqlalchemy.orm import Session
+from typing import Union
 
 from utils.database import ENGINE, get_db
+from utils.qr import QR
 from . import crud, models, schema
-from .qr import QR
 
 
 
@@ -61,13 +62,16 @@ def get_qr_code(
     status_code=status.HTTP_200_OK,
 )
 def qr_code_generate(
-    email: str,
     request: Request,
+    email: str,
+    background: Union[str, None] = None,
+    color: Union[str, None] = None,
+    show_logo: bool = True,
     db: Session = Depends(get_db),
 ):
     url = str(request.base_url)
-    result = QR()
-    qr = result.generate(db, email, url)
+    result = QR(db)
+    qr = result.generate(email, url, show_logo, background, color)
     
     return Response(content=qr, media_type='image/png')
 
@@ -81,8 +85,7 @@ def qr_code_generate(
 def qr_code_read(
     email: str,
     token: str,
-    request: Request,
     db: Session = Depends(get_db),
 ):
-    result = QR()
-    return result.read(db, email, token)
+    result = QR(db)
+    return result.read(email, token)
