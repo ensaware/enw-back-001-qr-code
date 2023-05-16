@@ -2,6 +2,9 @@ FROM python:3.11-slim
 
 ENV PYTHONUNBUFFERED True
 
+RUN apt-get update && \
+    apt-get install -y libgl1 libzbar-dev
+
 ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY . ./

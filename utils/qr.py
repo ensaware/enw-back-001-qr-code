@@ -2,6 +2,7 @@ from io import BytesIO
 from os import remove, path
 from uuid import uuid4
 
+import cv2
 import pyqrcode
 from PIL import Image
 from sqlalchemy.orm import Session
@@ -67,7 +68,7 @@ class QR:
                 image_qr.paste(logo_cua, self.__get_position(image_qr, logo_cua), logo_cua)
 
             buffered: BytesIO = BytesIO()
-            image_qr.save(buffered, format="PNG")
+            image_qr.save(buffered, format='PNG')
 
             return buffered.getvalue()
         finally:
@@ -86,3 +87,19 @@ class QR:
             raise QRCodeError(Error.READ_QR_CODE)
         
         return qr_id
+    
+
+    def read_imagen(self, email: str, image: bytes) -> models.QRCode:
+        code_detector = cv2.QRCodeDetector()
+        file_name = f'{str(uuid4())}.png'
+
+        try:
+            img: Image.Image = Image.open(BytesIO(image))
+            img.save(file_name)
+            qr = cv2.imread(file_name)
+            token, _, _ = code_detector.detectAndDecode(qr)
+
+            return self.read(email, token)
+        finally:
+            if path.exists(file_name):
+                remove(file_name)

@@ -8,3 +8,6 @@ pyqrcode
 cryptography
 pillow
 pypng
+pyzbar
+opencv-python
+python-multipart

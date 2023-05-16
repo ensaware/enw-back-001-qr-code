@@ -15,3 +15,4 @@ class Settings(BaseSettings):
     database_api: str = 'mysql+mysqlconnector'
 
     fernet_pass = os.getenv('FERNET_PASS')
+    encode: str = 'UTF-8'

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Request, Response
+from fastapi import APIRouter, Depends, status, Request, Response, UploadFile
 from sqlalchemy.orm import Session
 from typing import Union
 
@@ -89,3 +89,19 @@ def qr_code_read(
 ):
     result = QR(db)
     return result.read(email, token)
+
+
+@router.post(
+    '/qr-code/{email}/read',
+    tags=['v1 - QR Code'],
+    status_code=status.HTTP_200_OK,
+    response_model=schema.QRCode,
+)
+async def qr_code_read_imagen(
+    email: str,
+    image: UploadFile,
+    db: Session = Depends(get_db),
+):
+    contents = await image.read()
+    result = QR(db)
+    return result.read_imagen(email, contents)

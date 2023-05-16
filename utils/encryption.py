@@ -8,7 +8,7 @@ class Encryption:
         self._settings: Settings = Settings()
         self._fernet_pass: str = self._settings.fernet_pass
         self._fernet: Fernet = Fernet(self._fernet_pass)
-        self._encode: str = 'UTF-8'
+        self._encode: str = self._settings.encode
 
 
     def encrypt(self, message: str) -> str:
